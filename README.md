@@ -206,3 +206,10 @@ Templates
 -  ``multiuploader/form.html`` - ``MultiUploadForm`` template, you can change look'n'feel here.
 -  ``multiuploader/noscript.html`` - template for noscript case.
 
+
+Additional appreciation
+=======================
+
+-  Sebastian Tschan for jQuery HTML5 Uploader (https://blueimp.net/).
+-  Iurii Garmash for `django multiuploader skeleton`_, which was the
+   codebase for this app.
