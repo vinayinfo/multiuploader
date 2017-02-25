@@ -1,7 +1,7 @@
-django-multiuploader
+multiuploader
 ====================
 
-django-multiuploader - is an application which enable ability to upload
+multiuploader - is an application which enable ability to upload
 multiple files with HTML5 (jQuery plugin) in Django.
 
 Installation
@@ -9,15 +9,14 @@ Installation
 
 ::
 
-    $ pip install django-multiuploader
+    $ pip install multiuploader
 
 Then you should append ‘multiuploader’ to your INSTALLED\_APPS and run
 
 ::
 
-    $ python manage.py syncdb
+    $ python manage.py makemigrations
 
-or, if you use South:
 
 ::
 
@@ -26,7 +25,7 @@ or, if you use South:
 Also, if you want previews for uploaded images you need to do syncdb for
 sorl.thumbnail.
 
-You must have at least Django 1.3.1 version or later.
+You must have at least Django 1.13.5 version or later.
 
 Also you need to append ‘multiuploader.context\_processors.booleans’ to
 your ``TEMPLATE_CONTEXT_PROCESSORS``.
@@ -207,27 +206,3 @@ Templates
 -  ``multiuploader/form.html`` - ``MultiUploadForm`` template, you can change look'n'feel here.
 -  ``multiuploader/noscript.html`` - template for noscript case.
 
-Development
-===========
-
-The development is on following the repository:
-
--  https://bitbucket.org/Satchitananda/django-multiuploader
-
-All the feature requests, ideas, bug-reports etc. write in tracker:
--  https://bitbucket.org/Satchitananda/django-multiuploader/issues
-
-Additional appreciation
-=======================
-
--  Sebastian Tschan for jQuery HTML5 Uploader (https://blueimp.net/).
--  Iurii Garmash for `django multiuploader skeleton`_, which was the
-   codebase for this app.
-
-License
-=======
-
-Released under the `MIT license`_.
-
-.. _django multiuploader skeleton: https://github.com/garmoncheg/django_multiuploader
-.. _MIT license: http://www.opensource.org/licenses/MIT
