@@ -25,7 +25,7 @@ Then you should append ‘multiuploader’ to your INSTALLED\_APPS and run
 Also, if you want previews for uploaded images you need to do syncdb for
 sorl.thumbnail.
 
-You must have at least Django 1.13.5 version or later.
+You must have at least Django 1.10 version or later.
 
 Also you need to append ‘multiuploader.context\_processors.booleans’ to
 your ``TEMPLATE_CONTEXT_PROCESSORS``.
