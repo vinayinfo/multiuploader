@@ -1,24 +1,18 @@
 import logging
+import json
 
-
-from django.conf import settings
+from django.http.response import JsonResponse
 from django.views.generic.edit import FormView
 
-try:
-    from django.utils import simplejson as json
-except ImportError:
-    import json
-from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
-from django.core.signing import Signer, BadSignature
 from django.core.files.uploadedfile import UploadedFile
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponse
 
 from utils import FileResponse
 from models import MultiuploaderFile
-from forms import MultiUploadForm, MultiuploaderMultiDeleteForm
+from forms import MultiUploadForm
 
 from sorl.thumbnail import get_thumbnail
 
@@ -26,6 +20,9 @@ log = logging
 
 
 class MultiuploaderView(FormView):
+    """
+    This class will add use for uploading files.
+    """
     form_class = MultiUploadForm
     model = MultiuploaderFile
 
@@ -55,8 +52,10 @@ class MultiuploaderView(FormView):
         thumb_url = ""
         size = self.request.GET.get('size')
         size = size if size else '180x80'
+        quality = self.request.GET.get('quality')
+        quality = quality if quality else 50
         try:
-            im = get_thumbnail(fl.file, size, quality=50)
+            im = get_thumbnail(fl.file, size, quality=quality)
             thumb_url = im.url
         except Exception as e:
             log.error(e)
@@ -71,8 +70,7 @@ class MultiuploaderView(FormView):
                              "deleteType": "DELETE", }]
                   }
 
-        response_data = json.dumps(result)
-        return HttpResponse(response_data)
+        return JsonResponse(result)
 
     def form_invalid(self, form):
         """
