@@ -2,6 +2,7 @@ import logging
 
 
 from django.conf import settings
+from django.views.generic.edit import FormView
 
 try:
     from django.utils import simplejson as json
@@ -24,129 +25,79 @@ from sorl.thumbnail import get_thumbnail
 log = logging
 
 
-def multiuploader_delete_multiple(request, ok=False):
-    if request.method == 'POST':
+class MultiuploaderView(FormView):
+    form_class = MultiUploadForm
+    model = MultiuploaderFile
 
-        form = MultiuploaderMultiDeleteForm(request.POST)
+    def get_initial(self):
+        """
+        Returns the initial data to use for forms on this view.
+        """
+        self.initial['form_type'] = 'default'
+        return self.initial.copy()
 
-        if form.is_valid():
-            return redirect(request.META.get('HTTP_REFERER', None))
-        else:
-            pass
-
-        """fl = get_object_or_404(MultiuploaderFile, pk=pk)
-        fl.delete()
-        log.info('DONE. Deleted file id=' + str(pk))"""
-
-        return HttpResponse(1)
-
-    else:
-        log.info('Received not POST request to delete file view')
-        return HttpResponseBadRequest('Only POST accepted')
-
-
-def multiuploader_delete(request, pk):
-    if request.method == 'POST':
-        log.info('Called delete file. File id=' + str(pk))
-        fl = get_object_or_404(MultiuploaderFile, pk=pk)
-        fl.delete()
-        log.info('DONE. Deleted file id=' + str(pk))
-
-        return HttpResponse(1)
-
-    else:
-        log.info('Received not POST request to delete file view')
-        return HttpResponseBadRequest('Only POST accepted')
-
-
-def multiuploader(request, noajax=False):
-    """
-    Main Multiuploader module.
-    Parses data from jQuery plugin and makes database changes.
-    """
-
-    if request.method == 'POST':
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
         log.info('received POST to main multiuploader view')
 
-        if request.FILES is None:
-            response_data = [{"error": _('Must have files attached!')}]
-            return HttpResponse(json.dumps(response_data))
-
-        if not u'form_type' in request.POST:
-            response_data = [{"error": _("Error when detecting form type, form_type is missing")}]
-            return HttpResponse(json.dumps(response_data))
-
-        signer = Signer()
-
-        try:
-            form_type = signer.unsign(request.POST.get(u"form_type"))
-        except BadSignature:
-            response_data = [{"error": _("Tampering detected!")}]
-            return HttpResponse(json.dumps(response_data))
-
-        form = MultiUploadForm(request.POST, request.FILES, form_type=form_type)
-
-        if not form.is_valid():
-            error = _("Unknown error")
-
-            if "file" in form._errors and len(form._errors["file"]) > 0:
-                error = form._errors["file"][0]
-
-            response_data = [{"error": error}]
-            return HttpResponse(json.dumps(response_data))
-
-        file = request.FILES[u'file']
-        wrapped_file = UploadedFile(file)
+        file_obj = self.request.FILES['file']
+        wrapped_file = UploadedFile(file_obj)
         filename = wrapped_file.name
         file_size = wrapped_file.file.size
-
         log.info('Got file: "%s"' % filename)
-
-        #writing file manually into model
-        #because we don't need form of any type.
-
-        fl = MultiuploaderFile()
+        fl = self.model()
         fl.filename = filename
-        fl.file = file
+        fl.file = file_obj
         fl.save()
-
         log.info('File saving done')
-
         thumb_url = ""
-
+        size = self.request.GET.get('size')
+        size = size if size else '180x80'
         try:
-            im = get_thumbnail(fl.file, "80x80", quality=50)
+            im = get_thumbnail(fl.file, size, quality=50)
             thumb_url = im.url
         except Exception as e:
             log.error(e)
-
-        #generating json response array
-        result = [{"id": fl.id,
-                   "name": filename,
-                   "size": file_size,
-                   "url": reverse('multiuploader_file_link', args=[fl.pk]),
-                   "thumbnail_url": thumb_url,
-                   "delete_url": reverse('multiuploader_delete', args=[fl.pk]),
-                   "delete_type": "POST", }]
+        # generating json response array
+        result = {"files": [{"id": str(fl.id),
+                             "name": filename,
+                             "size": file_size,
+                             'type': file_obj.content_type,
+                             "url": reverse('multiuploader_file_link', args=[fl.pk]),
+                             "thumbnailUrl": thumb_url,
+                             "deleteUrl": reverse('multiuploader_file_link', args=[fl.pk]),
+                             "deleteType": "DELETE", }]
+                  }
 
         response_data = json.dumps(result)
+        return HttpResponse(response_data)
 
-        #checking for json data type
-        #big thanks to Guy Shapiro
+    def form_invalid(self, form):
+        """
+        If the form is invalid, re-render the context data with the
+        data-filled form and errors.
+        """
+        error = _("Unknown error")
+        if "file" in form._errors and len(form._errors["file"]) > 0:
+            error = form._errors["file"][0]
 
-        if noajax:
-            if request.META['HTTP_REFERER']:
-                redirect(request.META['HTTP_REFERER'])
+        response_data = [{"error": error}]
+        return HttpResponse(json.dumps(response_data))
 
-        if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:
-            mimetype = 'application/json'
-        else:
-            mimetype = 'text/plain'
-        return HttpResponse(response_data, content_type="{0}; charset=utf-8".format(mimetype))
-    else:  # GET
-        return HttpResponse('Only POST accepted')
+    def get(self, request, *args, **kwarg):
+        fl = get_object_or_404(MultiuploaderFile, id=kwarg.get('pk'))
+        return FileResponse(request, fl.file.path, fl.filename)
 
+    def delete(self, request, *args, **kwargs):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        log.info('Called delete file. File id=' + str(kwargs.get('pk')))
+        fl = get_object_or_404(MultiuploaderFile, pk=kwargs.get('pk'))
+        fl.delete()
+        log.info('DONE. Deleted file id=' + str(kwargs.get('pk')))
 
-def multi_show_uploaded(request, pk):
-    fl = get_object_or_404(MultiuploaderFile, id=pk)
-    return FileResponse(request,fl.file.path, fl.filename)
+        return HttpResponse(1)
