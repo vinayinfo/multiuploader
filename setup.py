@@ -9,7 +9,7 @@ for cmd in ('egg_info', 'develop'):
 
 setup(
     name='multiuploader',
-    version='0.1',
+    version='0.1.1',
     author='Vinay Kumar',
     author_email='vk-sharma@outlook.com',
     packages=find_packages(),
@@ -20,6 +20,6 @@ setup(
     url = 'https://github.com/SharmaVinayKumar/multiuploader', # use the URL to the github repo
     download_url = 'https://github.com/SharmaVinayKumar/multiuploader/tarball/0.1', # I'll explain this in a second
     keywords = ['multipleupload', 'fileupload', 'mediaupload', 'imageupload'], # arbitrary keywords
-    install_requires=['django>=1.10', 'sorl-thumbnail>=12.3', 'python-magic'],
+    install_requires=['django>=1.10', 'sorl-thumbnail>=12.3', 'python-magic>=0.4.12'],
     zip_safe=False,
 )
