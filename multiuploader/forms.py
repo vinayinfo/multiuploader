@@ -53,7 +53,7 @@ class MultiUploadForm(forms.Form):
             'maxFileSize': multiuploader_settings[form_type]["MAX_FILE_SIZE"],
             'acceptFileTypes': format_file_extensions(multiuploader_settings[form_type]["FILE_TYPES"]),
             'maxNumberOfFiles': multiuploader_settings[form_type]["MAX_FILE_NUMBER"],
-            'allowedContentTypes': map(str.lower, multiuploader_settings[form_type]["CONTENT_TYPES"]),
+            'allowedContentTypes': list(map(str.lower, multiuploader_settings[form_type]["CONTENT_TYPES"])),
             'autoUpload': multiuploader_settings[form_type]["AUTO_UPLOAD"]
         }
 
