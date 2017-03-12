@@ -1,9 +1,9 @@
 from django import template
 from django.conf import settings
 from django.core.signing import Signer
-from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
+from django.utils.safestring import mark_safe
 
 from .. import default_settings as DEFAULTS
 from ..forms import MultiUploadForm

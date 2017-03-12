@@ -1,8 +1,12 @@
 from __future__ import print_function
-import os,shutil
-from sorl.thumbnail.management.commands import thumbnail
-from sorl.thumbnail.conf import settings
+
+import os
+import shutil
+
 from django.core.management.base import BaseCommand, CommandError
+from sorl.thumbnail.conf import settings
+from sorl.thumbnail.management.commands import thumbnail
+
 
 class Command(BaseCommand):
     help = 'Clean all temporary attachments loaded to MultiuploaderFile model'

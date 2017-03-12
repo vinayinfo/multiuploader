@@ -1,16 +1,14 @@
+import json
 import os
 import re
-import json
-import magic
 
+import magic
+import multiuploader.default_settings as DEFAULTS
 from django import forms
 from django.conf import settings
-
 from django.utils.html import mark_safe
 
 from utils import format_file_extensions
-
-import multiuploader.default_settings as DEFAULTS
 
 
 class MultiuploadWidget(forms.MultipleHiddenInput):

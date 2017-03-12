@@ -1,10 +1,8 @@
 from django import forms
 from django.contrib import admin
+from django.contrib.admin.widgets import AdminFileWidget
 from django.core.urlresolvers import reverse
 from django.forms.widgets import ClearableFileInput
-from django.contrib.admin.widgets import AdminFileWidget
-
-
 from multiuploader.models import MultiuploaderFile
 
 
