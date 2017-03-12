@@ -1,20 +1,18 @@
-import logging
 import json
+import logging
 
-from django.http.response import JsonResponse
-from django.views.generic.edit import FormView
-
+from django.core.files.uploadedfile import UploadedFile
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
-from django.core.files.uploadedfile import UploadedFile
-from django.http import HttpResponse
-
-from utils import FileResponse
-from models import MultiuploaderFile
-from forms import MultiUploadForm
-
+from django.views.generic.edit import FormView
 from sorl.thumbnail import get_thumbnail
+
+from forms import MultiUploadForm
+from models import MultiuploaderFile
+from utils import FileResponse
 
 log = logging
 

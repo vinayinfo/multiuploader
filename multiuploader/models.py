@@ -1,21 +1,13 @@
 import os
 import time
-import datetime
-import multiuploader.default_settings as DEFAULTS
-
 from hashlib import sha1
 
-from django.db import models
+import multiuploader.default_settings as DEFAULTS
 from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
+from django.db import models
 from django.utils.text import get_valid_filename
-from django.core.files.storage import default_storage
-from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
-
-
-
+from django.utils.translation import ugettext_lazy as _
 from multiuploader.utils import generate_safe_pk
 
 
@@ -34,22 +26,8 @@ def _upload_to(instance, filename):
 
 
 class BaseAttachment(models.Model):
-    id = models.CharField(primary_key=True, max_length=255)
     filename = models.CharField(max_length=255, blank=False, null=False)
-    upload_date = models.DateTimeField()
-
-    @generate_safe_pk
-    def generate_pk(self):
-        return self
-
-    def save(self, *args, **kwargs):
-        if not self.upload_date:
-            self.upload_date = now()
-
-        if not self.pk:
-            self.pk = self.generate_pk()
-
-        super(BaseAttachment, self).save(*args, **kwargs)
+    upload_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True

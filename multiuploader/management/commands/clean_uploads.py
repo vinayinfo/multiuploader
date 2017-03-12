@@ -1,15 +1,13 @@
 from __future__ import print_function
-import os
+
 import datetime
-
-import multiuploader.default_settings as DEFAULTS
-
+import os
 from datetime import timedelta
 
+import multiuploader.default_settings as DEFAULTS
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.timezone import now
-
 from multiuploader.models import MultiuploaderFile
 
 

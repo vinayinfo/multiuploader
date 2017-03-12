@@ -1,18 +1,16 @@
+import datetime
+import logging
+import mimetypes
 import os
 import urllib
-import logging
-import datetime
-import mimetypes
-
-from wsgiref.util import FileWrapper
-
 from hashlib import sha1
 from random import choice
+from wsgiref.util import FileWrapper
 
+from django.conf import Settings, settings
 from django.core.files import File
-from django.http import HttpResponse
-from django.conf import settings,Settings
 from django.core.files.uploadedfile import UploadedFile
+from django.http import HttpResponse
 from django.utils.timezone import now
 
 log = logging
