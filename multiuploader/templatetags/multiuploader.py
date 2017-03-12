@@ -2,7 +2,6 @@ from django import template
 from django.conf import settings
 from django.core.signing import Signer
 from django.template.loader import render_to_string
-from django.utils.crypto import get_random_string
 from django.utils.safestring import mark_safe
 
 from .. import default_settings as DEFAULTS
@@ -22,8 +21,8 @@ def form_type(context, form_type):
 
         if form_type == '' or form_type not in mu_forms:
             if settings.DEBUG:
-                warnings.warn(
-                    "A {% form_type %} was used in a template but such form_type (%s) was not provided in settings, default used instead" % form_type)
+                warnings.warn("A {% form_type %} was used in a template but such form_type (%s) was not provided"
+                              "in settings, default used instead" % form_type)
 
             return mark_safe(
                 u"<div style='display:none'><input type='hidden' name='form_type' value='%s' /></div>" % signer.sign(
