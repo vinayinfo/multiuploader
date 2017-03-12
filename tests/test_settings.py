@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
+import os
 
 SECRET_KEY = 'p23jof024jf5-94j3f023jf230=fj234fp34fijo'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEST_DATA_DIR = os.path.join(BASE_DIR, 'tests', 'test_data')
 
 DATABASES = {
     'default': {
