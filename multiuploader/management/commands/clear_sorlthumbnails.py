@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 import shutil
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from sorl.thumbnail.conf import settings
 from sorl.thumbnail.management.commands import thumbnail
 
@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         thumbnail.Command().execute("clear")
-        folder = os.path.join(settings.MEDIA_ROOT,settings.THUMBNAIL_PREFIX)
+        folder = os.path.join(settings.MEDIA_ROOT, settings.THUMBNAIL_PREFIX)
         if os.path.exists(folder):
             shutil.rmtree(folder)
 

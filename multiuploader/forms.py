@@ -46,7 +46,8 @@ class MultiUploadForm(forms.Form):
     file = forms.FileField()
 
     def __init__(self, *args, **kwargs):
-        multiuploader_settings = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS", DEFAULTS.MULTIUPLOADER_FORMS_SETTINGS)
+        multiuploader_settings = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS",
+                                         DEFAULTS.MULTIUPLOADER_FORMS_SETTINGS)
         form_type = kwargs.pop("form_type", "default")
 
         options = {

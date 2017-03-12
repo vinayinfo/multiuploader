@@ -6,9 +6,7 @@ import multiuploader.default_settings as DEFAULTS
 from django.conf import settings
 from django.db import models
 from django.utils.text import get_valid_filename
-from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
-from multiuploader.utils import generate_safe_pk
 
 
 def _upload_to(instance, filename):

@@ -13,7 +13,8 @@ MULTIUPLOADER_FILES_FOLDER = 'multiuploader'
 
 MULTIUPLOADER_FORMS_SETTINGS = {
     'default': {
-        'FILE_TYPES': ['jpg', 'jpeg', 'png', 'txt', 'zip', 'rar', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'rtf'],
+        'FILE_TYPES': ['jpg', 'jpeg', 'png', 'txt', 'zip', 'rar', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt',
+                       'ods', 'odp', 'rtf'],
         'CONTENT_TYPES': [
                 'image/jpeg',
                 'image/png',
@@ -53,7 +54,7 @@ MULTIUPLOADER_FORMS_SETTINGS = {
         'AUTO_UPLOAD': True,
     },
     'video': {
-        'FILE_TYPES': ['flv', 'mpg', 'mpeg', 'mp4' ,'avi', 'mkv', 'ogg', 'wmv', 'mov', 'webm'],
+        'FILE_TYPES': ['flv', 'mpg', 'mpeg', 'mp4', 'avi', 'mkv', 'ogg', 'wmv', 'mov', 'webm'],
         'CONTENT_TYPES': [
             'video/mpeg',
             'video/mp4',
