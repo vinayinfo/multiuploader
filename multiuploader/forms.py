@@ -4,11 +4,11 @@ import re
 
 import magic
 import multiuploader.default_settings as DEFAULTS
+from multiuploader.utils import format_file_extensions
+
 from django import forms
 from django.conf import settings
 from django.utils.html import mark_safe
-
-from utils import format_file_extensions
 
 
 class MultiuploadWidget(forms.MultipleHiddenInput):
@@ -49,12 +49,11 @@ class MultiUploadForm(forms.Form):
         multiuploader_settings = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS",
                                          DEFAULTS.MULTIUPLOADER_FORMS_SETTINGS)
         form_type = kwargs.pop("form_type", "default")
-
         options = {
             'maxFileSize': multiuploader_settings[form_type]["MAX_FILE_SIZE"],
             'acceptFileTypes': format_file_extensions(multiuploader_settings[form_type]["FILE_TYPES"]),
             'maxNumberOfFiles': multiuploader_settings[form_type]["MAX_FILE_NUMBER"],
-            'allowedContentTypes': map(str.lower, multiuploader_settings[form_type]["CONTENT_TYPES"]),
+            'allowedContentTypes': list(map(str.lower, multiuploader_settings[form_type]["CONTENT_TYPES"])),
             'autoUpload': multiuploader_settings[form_type]["AUTO_UPLOAD"]
         }
 
@@ -77,6 +76,7 @@ class MultiUploadForm(forms.Form):
         self.fields["file"].widget = forms.FileInput(attrs={'multiple': True})
 
     def clean_file(self):
+
         content = self.cleaned_data[u'file']
         filename, extension = os.path.splitext(content.name)
 
@@ -93,7 +93,3 @@ class MultiUploadForm(forms.Form):
                 raise forms.ValidationError("acceptFileTypes")
 
         return content
-
-
-class MultiuploaderMultiDeleteForm(forms.Form):
-    id = MultiuploaderField()

@@ -35,7 +35,7 @@ def form_type(context, form_type):
     else:
         # It's very probable that the form_type is missing because of
         # misconfiguration, so we raise a warning
-
+        import warnings
         if settings.DEBUG:
             warnings.warn("A {% form_type %} was used in a template but form_type was not provided")
 
