@@ -13,6 +13,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = [
+    'sorl.thumbnail',
     'tests',
     'multiuploader',
 ]
@@ -33,4 +34,8 @@ TEMPLATES = [
     },
 ]
 
+MIDDLEWARE_CLASSES = ()
+
 CELERY_TASK_ALWAYS_EAGER = True
+
+ROOT_URLCONF = 'multiuploader.urls'

@@ -2,10 +2,10 @@ import json
 import logging
 
 from django.core.files.uploadedfile import UploadedFile
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
 from sorl.thumbnail import get_thumbnail
