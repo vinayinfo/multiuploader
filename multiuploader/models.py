@@ -1,6 +1,6 @@
+import hashlib
 import os
 import time
-from hashlib import sha1
 
 import multiuploader.default_settings as DEFAULTS
 from django.conf import settings
@@ -17,8 +17,9 @@ def _upload_to(instance, filename):
 
     filename = get_valid_filename(os.path.basename(filename))
     filename, ext = os.path.splitext(filename)
-    hash = sha1(str(time.time())).hexdigest()
-    fullname = os.path.join(upload_path, "%s.%s%s" % (filename, hash, ext))
+    md5hash = hashlib.md5()
+    md5hash.update(str(time.time()).encode("utf8"))
+    fullname = os.path.join(upload_path, "%s.%s%s" % (filename, md5hash.hexdigest(), ext))
 
     return fullname
 
