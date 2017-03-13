@@ -10,9 +10,9 @@ from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
 from sorl.thumbnail import get_thumbnail
 
-from forms import MultiUploadForm
-from models import MultiuploaderFile
-from utils import FileResponse
+from multiuploader.forms import MultiUploadForm
+from multiuploader.models import MultiuploaderFile
+from multiuploader.utils import FileResponse
 
 log = logging
 
