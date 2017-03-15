@@ -5,8 +5,6 @@ cache: pip
 
 python:
   - "3.5"
-  - "3.4"
-  - "3.3"
   - "2.7"
 
 env:
@@ -17,11 +15,11 @@ env:
 
 matrix:
   exclude:
-    - python: "3.3"
+    - python: "3.5"
       env: DJANGO="Django>=1.10,<1.11"
-    - python: "3.3"
+    - python: "3.5"
       env: DJANGO="Django>=1.9,<1.10"
-    - python: "3.3"
+    - python: "3.5"
       env: DJANGO="https://github.com/django/django/archive/master.tar.gz"
   allow_failures:
     - env: DJANGO="https://github.com/django/django/archive/master.tar.gz"
