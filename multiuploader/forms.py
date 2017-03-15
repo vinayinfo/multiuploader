@@ -4,11 +4,10 @@ import re
 
 import magic
 import multiuploader.default_settings as DEFAULTS
-from multiuploader.utils import format_file_extensions
-
 from django import forms
 from django.conf import settings
 from django.utils.html import mark_safe
+from multiuploader.utils import format_file_extensions
 
 
 class MultiuploadWidget(forms.MultipleHiddenInput):

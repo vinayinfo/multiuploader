@@ -32,6 +32,7 @@ install:
   - travis_retry pip install celery==4.0.0
   - travis_retry pip install futures     # For python 2.7
   - travis_retry pip install sorl-thumbnail>=12.3  
+  - travis_retry pip install mock 
   - travis_retry pip install python-magic>=0.4.12 # For python 2.7
 
 services:
