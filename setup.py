@@ -10,7 +10,7 @@ for cmd in ('egg_info', 'develop'):
 
 setup(
     name='multiuploader',
-    version='0.1.01',
+    version='0.1.02',
     author='Vinay Kumar',
     author_email='vk-sharma@outlook.com',
     packages=find_packages(),
