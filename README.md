@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SharmaVinayKumar/multiuploader.svg?branch=master)](https://travis-ci.org/SharmaVinayKumar/multiuploader)
+[![Build Status](https://travis-ci.org/vinaypost/multiuploader.svg?branch=master)](https://travis-ci.org/vinaypost/multiuploader)
 multiuploader
 ====================
 
