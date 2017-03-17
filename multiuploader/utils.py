@@ -1,7 +1,11 @@
 import logging
 import mimetypes
 import os
-import urllib
+try:
+    from urllib import quote
+except:
+    from urllib.parse import quote
+
 from hashlib import sha1
 from random import choice
 from wsgiref.util import FileWrapper
@@ -116,6 +120,6 @@ class FileResponse(HttpResponse):
             filename_header = ''
         else:
             # For others like Firefox, we follow RFC2231 (encoding extension in HTTP headers).
-            filename_header = 'filename*=UTF-8\'\'%s' % urllib.quote(filename.encode('utf-8'))
+            filename_header = 'filename*=UTF-8\'\'%s' % quote(filename.encode('utf-8'))
 
         self['Content-Disposition'] = 'attachment; ' + filename_header

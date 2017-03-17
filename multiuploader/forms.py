@@ -47,23 +47,23 @@ class MultiUploadForm(forms.Form):
     def __init__(self, *args, **kwargs):
         multiuploader_settings = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS",
                                          DEFAULTS.MULTIUPLOADER_FORMS_SETTINGS)
-        form_type = kwargs.pop("form_type", "default")
+        media_type = kwargs.get('data', {}).get("media_type", "default")
         options = {
-            'maxFileSize': multiuploader_settings[form_type]["MAX_FILE_SIZE"],
-            'acceptFileTypes': format_file_extensions(multiuploader_settings[form_type]["FILE_TYPES"]),
-            'maxNumberOfFiles': multiuploader_settings[form_type]["MAX_FILE_NUMBER"],
-            'allowedContentTypes': list(map(str.lower, multiuploader_settings[form_type]["CONTENT_TYPES"])),
-            'autoUpload': multiuploader_settings[form_type]["AUTO_UPLOAD"]
+            'maxFileSize': multiuploader_settings[media_type]["MAX_FILE_SIZE"],
+            'acceptFileTypes': format_file_extensions(multiuploader_settings[media_type]["FILE_TYPES"]),
+            'maxNumberOfFiles': multiuploader_settings[media_type]["MAX_FILE_NUMBER"],
+            'allowedContentTypes': list(map(str.lower, multiuploader_settings[media_type]["CONTENT_TYPES"])),
+            'autoUpload': multiuploader_settings[media_type]["AUTO_UPLOAD"]
         }
 
         self.check_extension = True
         self.check_content_type = True
 
-        if multiuploader_settings[form_type]["FILE_TYPES"] == '*':
+        if multiuploader_settings[media_type]["FILE_TYPES"] == '*':
             self.check_extension = False
             options.update({'acceptFileTypes': []})
 
-        if multiuploader_settings[form_type]["CONTENT_TYPES"] == '*':
+        if multiuploader_settings[media_type]["CONTENT_TYPES"] == '*':
             self.check_content_type = False
             options.pop('allowedContentTypes')
 

@@ -26,19 +26,11 @@ class MultiuploaderView(FormView):
     form_class = MultiUploadForm
     model = MultiuploaderFile
 
-    def get_initial(self):
-        """
-        Returns the initial data to use for forms on this view.
-        """
-        self.initial['form_type'] = 'default'
-        return self.initial.copy()
-
     def form_valid(self, form):
         """
         If the form is valid, redirect to the supplied URL.
         """
         log.info('received POST to main multiuploader view')
-
         file_obj = self.request.FILES['file']
         wrapped_file = UploadedFile(file_obj)
         filename = wrapped_file.name
