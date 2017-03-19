@@ -12,7 +12,7 @@ from distutils.core import setup
 
 from setuptools import find_packages
 
-from multiupload import __version__
+from multiuploader import __version__
 
 CLASSIFIERS = [
     'Development Status :: 1 - Beta',
