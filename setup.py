@@ -10,9 +10,8 @@ https://docs.python.org/2/distutils/setupscript.html
 
 from distutils.core import setup
 
-from setuptools import find_packages
-
 from multiuploader import __version__
+from setuptools import find_packages
 
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',

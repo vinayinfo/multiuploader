@@ -5,7 +5,8 @@ from django.conf import settings
 from django.core.signing import Signer
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from multiuploader.forms import MultiUploadForm
+
+from ..forms import MultiUploadForm
 
 register = template.Library()
 

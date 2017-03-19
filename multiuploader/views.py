@@ -39,15 +39,13 @@ class MultiuploaderView(FormView):
         filename = wrapped_file.name
         file_size = wrapped_file.file.size
         log.info('Got file: "%s"' % filename)
-        fl = self.model()
-        fl.filename = filename
-        fl.file = file_obj
+        fl = self.model(filename=filename, file=file_obj)
         fl.save()
         log.info('File saving done')
         thumb_url = ""
-        size = self.request.GET.get('size')
+        size = self.request.POST.get('size')
         size = size if size else '180x80'
-        quality = self.request.GET.get('quality')
+        quality = self.request.POST.get('quality')
         quality = quality if quality else 50
         try:
             im = get_thumbnail(fl.file, size, quality=quality)

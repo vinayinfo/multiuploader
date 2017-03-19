@@ -39,3 +39,4 @@ MIDDLEWARE_CLASSES = ()
 CELERY_TASK_ALWAYS_EAGER = True
 
 ROOT_URLCONF = 'multiuploader.urls'
+MULTIUPLOADER_FILES_FOLDER = 'multiuploader/'
