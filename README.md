@@ -1,5 +1,5 @@
 
-# Multiuploader [![Build Status](https://travis-ci.org/vinaypost/multiuploader.svg?branch=master)](https://travis-ci.org/vinaypost/multiuploader) [![Build Status](https://img.shields.io/pypi/v/multiuploader.svg?style=flat)](https://pypi.python.org/pypi/djmail) [![Build Status](https://img.shields.io/pypi/dm/multiuploader.svg?style=flat)](https://pypi.python.org/pypi/djmail)
+# Multiuploader [![Build Status](https://travis-ci.org/vinaypost/multiuploader.svg?branch=master)](https://travis-ci.org/vinaypost/multiuploader) [![Version Status](https://img.shields.io/pypi/v/multiuploader.svg?style=flat)](https://pypi.python.org/pypi/mutiuploader)
 
   
   

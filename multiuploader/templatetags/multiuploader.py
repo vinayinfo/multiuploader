@@ -1,43 +1,43 @@
+from __future__ import unicode_literals
+
 from django import template
 from django.conf import settings
 from django.core.signing import Signer
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-
-from .. import default_settings as DEFAULTS
-from ..forms import MultiUploadForm
+from multiuploader.forms import MultiUploadForm
 
 register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def form_type(context, form_type):
-    mu_forms = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS", DEFAULTS.MULTIUPLOADER_FORMS_SETTINGS)
+def media_type(context, media_type):
+    mu_forms = getattr(settings, "MULTIUPLOADER_FORMS_SETTINGS", settings.MULTIUPLOADER_FORMS_SETTINGS)
 
     signer = Signer()
 
-    if form_type:
+    if media_type:
         import warnings
 
-        if form_type == '' or form_type not in mu_forms:
+        if media_type == '' or media_type not in mu_forms:
             if settings.DEBUG:
-                warnings.warn("A {% form_type %} was used in a template but such form_type (%s) was not provided"
-                              "in settings, default used instead" % form_type)
+                warnings.warn("A {% media_type %} was used in a template but such media_type ({}) was not provided"
+                              "in settings, default used instead".format(media_type))
 
             return mark_safe(
-                u"<div style='display:none'><input type='hidden' name='form_type' value='%s' /></div>" % signer.sign(
-                    'default'))
+                u"<div style='display:none'><input type='hidden' name='media_type' value='{}' /></div>".format(signer.sign(
+                    'default')))
 
         else:
             return mark_safe(
-                u"<div style='display:none'><input type='hidden' name='form_type' value='%s' /></div>" % signer.sign(
-                    form_type))
+                u"<div style='display:none'><input type='hidden' name='media_type' value='{}' /></div>".format(signer.sign(
+                    media_type)))
     else:
-        # It's very probable that the form_type is missing because of
+        # It's very probable that the media_type is missing because of
         # misconfiguration, so we raise a warning
         import warnings
         if settings.DEBUG:
-            warnings.warn("A {% form_type %} was used in a template but form_type was not provided")
+            warnings.warn("A {% media_type %} was used in a template but form_type was not provided")
 
         return mark_safe(u"")
 

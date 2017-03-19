@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import json
 import logging
 
@@ -5,16 +7,17 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
-try:
-    from django.urls import reverse
-except:
-    from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import FormView
 from multiuploader.forms import MultiUploadForm
 from multiuploader.models import MultiuploaderFile
 from multiuploader.utils import FileResponse
 from sorl.thumbnail import get_thumbnail
+
+try:
+    from django.urls import reverse
+except ImportError as ie:
+    from django.core.urlresolvers import reverse
 
 log = logging
 
@@ -56,9 +59,9 @@ class MultiuploaderView(FormView):
                              "name": filename,
                              "size": file_size,
                              'type': file_obj.content_type,
-                             "url": reverse('multiuploader_file_link', args=[fl.pk]),
+                             "url": reverse('multiuploader', args=[fl.pk]),
                              "thumbnailUrl": thumb_url,
-                             "deleteUrl": reverse('multiuploader_file_link', args=[fl.pk]),
+                             "deleteUrl": reverse('multiuploader', args=[fl.pk]),
                              "deleteType": "DELETE", }]
                   }
 
