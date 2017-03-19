@@ -53,7 +53,7 @@ setup(
     long_description = open('README.md').read(),
     include_package_data = True,
     url = 'https://github.com/vinaypost/multiuploader',
-    download_url = 'https://github.com/vinaypost/multiuploader/archive/0.1.01.tar.gz',
+    download_url = 'https://github.com/vinaypost/multiuploader/archive/'+__version__+'.tar.gz',
     keywords = ['multiupload', 'multiuploader', 'fileupload', 'mediaupload', 'imageupload'],
     platforms=['OS Independent'],
     classifiers = CLASSIFIERS,
