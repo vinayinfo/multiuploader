@@ -10,6 +10,7 @@ Wrap {% verbatim %} and {% endverbatim %} around those
 blocks of jQuery templates and this will try its best
 to output the contents with no changes.
 """
+from __future__ import unicode_literals
 
 from django import template
 
