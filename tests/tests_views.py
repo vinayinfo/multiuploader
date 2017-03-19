@@ -12,7 +12,6 @@ except ImportError as ie:
     from django.core.urlresolvers import reverse
 
 
-
 class MultiuploaderViewTest(TestCase):
     """Test uploading functionality"""
     @mock.patch('sorl.thumbnail.get_thumbnail')
@@ -24,16 +23,17 @@ class MultiuploaderViewTest(TestCase):
             resp = self.client.post(reverse('multiuploader'), data=form_data)
             self.assertEqual(resp.status_code, 200)
             data = {"files": [{"id": "1",
-                          "name": "test.png",
-                          "size": 180,
-                          'type': "text/plain",
-                          "url": "/multiuploader/1/",
-                          "thumbnailUrl": "",
-                          "deleteUrl": "/multiuploader/1/",
-                          "deleteType": "DELETE", }]
-               }
+                               "name": "test.png",
+                               "size": 180,
+                               "type": "text/plain",
+                               "url": "/multiuploader/1/",
+                               "thumbnailUrl": "",
+                               "deleteUrl": "/multiuploader/1/",
+                               "deleteType": "DELETE"
+                               }]
+                    }
             self.assertEqual(resp.content, JsonResponse(data).content)
-            resp = self.client.get(reverse('multiuploader',args=[1]), HTTP_USER_AGENT='Mozilla/5.0')
+            resp = self.client.get(reverse('multiuploader', args=[1]), HTTP_USER_AGENT='Mozilla/5.0')
             self.assertEqual(resp.status_code, 200)
             resp = self.client.delete(reverse('multiuploader', args=[1]))
             self.assertEqual(resp.status_code, 200)
@@ -56,7 +56,7 @@ class MultiuploaderViewTest(TestCase):
                                "deleteType": "DELETE", }]
                     }
             self.assertEqual(resp.content, JsonResponse(data).content)
-            resp = self.client.get(reverse('multiuploader',args=[2]), HTTP_USER_AGENT='Mozilla/5.0')
+            resp = self.client.get(reverse('multiuploader', args=[2]), HTTP_USER_AGENT='Mozilla/5.0')
             self.assertEqual(resp.status_code, 200)
             resp = self.client.delete(reverse('multiuploader', args=[2]))
             self.assertEqual(resp.status_code, 200)
@@ -81,5 +81,76 @@ class MultiuploaderViewTest(TestCase):
             self.assertEqual(resp.content, JsonResponse(data).content)
             resp = self.client.get(reverse('multiuploader', args=[3]), HTTP_USER_AGENT='Mozilla/5.0')
             self.assertEqual(resp.status_code, 200)
-            resp = self.client.delete(reverse('multiuploader',args=[3]))
+            resp = self.client.delete(reverse('multiuploader', args=[3]))
+            self.assertEqual(resp.status_code, 200)
+
+    @mock.patch('sorl.thumbnail.get_thumbnail')
+    def test_uploading_thumbnail_quality(self, mock_get_thumbnail):
+        """Test upload single image file with quality"""
+        mock_get_thumbnail.return_value = ""
+        with open(settings.TEST_DATA_DIR + '/test.png', 'rb') as att:
+            form_data = {'file': SimpleUploadedFile(att.name, att.read()), 'media_type': 'images', 'quality': 70}
+            resp = self.client.post(reverse('multiuploader'), data=form_data)
+            self.assertEqual(resp.status_code, 200)
+            data = {"files": [{"id": "4",
+                               "name": "test.png",
+                               "size": 180,
+                               'type': "text/plain",
+                               "url": "/multiuploader/4/",
+                               "thumbnailUrl": "",
+                               "deleteUrl": "/multiuploader/4/",
+                               "deleteType": "DELETE", }]
+                    }
+            self.assertEqual(resp.content, JsonResponse(data).content)
+            resp = self.client.get(reverse('multiuploader', args=[4]), HTTP_USER_AGENT='Mozilla/5.0')
+            self.assertEqual(resp.status_code, 200)
+            resp = self.client.delete(reverse('multiuploader', args=[4]))
+            self.assertEqual(resp.status_code, 200)
+
+    @mock.patch('sorl.thumbnail.get_thumbnail')
+    def test_uploading_thumbnail_size(self, mock_get_thumbnail):
+        """Test upload single image file with size"""
+        mock_get_thumbnail.return_value = ""
+        with open(settings.TEST_DATA_DIR+'/test.png', 'rb') as att:
+            form_data = {'file': SimpleUploadedFile(att.name, att.read()), 'media_type': 'images', 'size': '280x80'}
+            resp = self.client.post(reverse('multiuploader'), data=form_data)
+            self.assertEqual(resp.status_code, 200)
+            data = {"files": [{"id": "5",
+                               "name": "test.png",
+                               "size": 180,
+                               "type": "text/plain",
+                               "url": "/multiuploader/5/",
+                               "thumbnailUrl": "",
+                               "deleteUrl": "/multiuploader/5/",
+                               "deleteType": "DELETE"
+                               }]
+                    }
+            self.assertEqual(resp.content, JsonResponse(data).content)
+            resp = self.client.get(reverse('multiuploader', args=[5]), HTTP_USER_AGENT='Mozilla/5.0')
+            self.assertEqual(resp.status_code, 200)
+            resp = self.client.delete(reverse('multiuploader', args=[5]))
+            self.assertEqual(resp.status_code, 200)
+
+    @mock.patch('sorl.thumbnail.get_thumbnail')
+    def test_uploading_thumbnail_size_and_quality(self, mock_get_thumbnail):
+        """Test upload single image file with size and quality"""
+        mock_get_thumbnail.return_value = ""
+        with open(settings.TEST_DATA_DIR + '/test.png', 'rb') as att:
+            form_data = {'file': SimpleUploadedFile(att.name, att.read()), 'media_type': 'images',
+                         'size': '280x180', 'quality': 60}
+            resp = self.client.post(reverse('multiuploader'), data=form_data)
+            self.assertEqual(resp.status_code, 200)
+            data = {"files": [{"id": "6",
+                               "name": "test.png",
+                               "size": 180,
+                               'type': "text/plain",
+                               "url": "/multiuploader/6/",
+                               "thumbnailUrl": "",
+                               "deleteUrl": "/multiuploader/6/",
+                               "deleteType": "DELETE", }]
+                    }
+            self.assertEqual(resp.content, JsonResponse(data).content)
+            resp = self.client.get(reverse('multiuploader', args=[6]), HTTP_USER_AGENT='Mozilla/5.0')
+            self.assertEqual(resp.status_code, 200)
+            resp = self.client.delete(reverse('multiuploader', args=[6]))
             self.assertEqual(resp.status_code, 200)
